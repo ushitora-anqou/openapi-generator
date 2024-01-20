@@ -1,15 +1,21 @@
 opam-version: "2.0"
-name: "{{{packageName}}}"
-version: "{{{packageVersion}}}"
-synopsis: "{{{packageDescription}}}"
+name: "openapi"
+version: "1.0.0"
+synopsis: ""
 description: """
 Longer description
 """
 maintainer: "Name <email>"
 authors: "Name <email>"
-license: ""
-homepage: ""
-bug-reports: ""
-dev-repo: ""
-depends: [ "ocaml" "ocamlfind" ]
 build: ["dune" "build" "-p" name]
+pin-depends:[
+  [ "cohttp.6.0.0~alpha2" "git+https://github.com/mirage/ocaml-cohttp.git#v6.0.0_beta2" ]
+  [ "cohttp-eio.6.0.0~alpha2" "git+https://github.com/mirage/ocaml-cohttp.git#v6.0.0_beta2" ]
+]
+depends: [
+  "cohttp"
+  "cohttp-eio"
+  "dune" {>= "3.9"}
+  "ppx_deriving_yojson"
+  "ppx_deriving"
+]

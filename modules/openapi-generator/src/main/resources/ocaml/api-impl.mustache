@@ -10,8 +10,7 @@
 
 {{#operations}}
 {{#operation}}
-let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}{{^-last}} {{/-last}}{{#-last}}{{^required}} (){{/required}}{{/-last}}{{/allParams}} =
-    let open Lwt.Infix in
+let {{{operationId}}} ~sw client {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}{{^-last}} {{/-last}}{{#-last}}{{^required}} (){{/required}}{{/-last}}{{/allParams}} =
     let uri = Request.build_uri "{{{path}}}" in
     let headers = Request.default_headers in
 {{#hasAuthMethods}}
@@ -55,7 +54,7 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}
     let body = Request.finalize_form_encoded_body body in
     {{/hasFormParams}}
 {{/hasBodyParam}}
-    Cohttp_lwt_unix.Client.call `{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}~body {{/hasFormParams}}{{/hasBodyParam}}>>= fun (resp, body) ->
+    let resp, body = Cohttp_eio.Client.call ~sw client `{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}~body {{/hasFormParams}}{{/hasBodyParam}} in
 {{^returnType}}
     Request.handle_unit_response resp
 {{/returnType}}
