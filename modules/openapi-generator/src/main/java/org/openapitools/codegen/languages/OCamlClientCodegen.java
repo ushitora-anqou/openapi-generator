@@ -596,7 +596,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
             String prefix = inner.getEnum() != null ? "Enums." : "";
-            return "(string * " + prefix + getTypeDeclaration(inner) + ") list";
+            return "Yojson.Safe.t";
         } else if (p.getEnum() != null) {
             String h = hashEnum(p);
             return enumUniqNames.get(h);
