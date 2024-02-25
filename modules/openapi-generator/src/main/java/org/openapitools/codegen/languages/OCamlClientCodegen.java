@@ -153,7 +153,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                         "string",
                         "bytes",
                         "list",
-                        "Yojson.Safe.t"
+                        "any"
                 )
         );
 
@@ -170,8 +170,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("integer", "int32");
         typeMapping.put("number", "float");
         typeMapping.put("date", "string");
-        typeMapping.put("object", "Yojson.Safe.t");
-        typeMapping.put("any", "Yojson.Safe.t");
+        typeMapping.put("object", "any");
+        typeMapping.put("any", "any");
         typeMapping.put("file", "string");
         typeMapping.put("ByteArray", "string");
         // lib
@@ -596,7 +596,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
             String prefix = inner.getEnum() != null ? "Enums." : "";
-            return "Yojson.Safe.t";
+            return "any";
         } else if (p.getEnum() != null) {
             String h = hashEnum(p);
             return enumUniqNames.get(h);
@@ -728,7 +728,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 }
             }
 
-            if ("Yojson.Safe.t".equals(operation.returnBaseType)) {
+            if ("any".equals(operation.returnBaseType)) {
                 operation.vendorExtensions.put("x-return-free-form-object", true);
             }
 

@@ -8,11 +8,12 @@
 {{/operations}}
  *)
 
+type any = Yojson.Safe.t
+
 {{#operations}}
 {{#operation}}
-let {{{operationId}}} ~sw client {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}{{^-last}} {{/-last}}{{#-last}}{{^required}} (){{/required}}{{/-last}}{{/allParams}} =
+let {{{operationId}}} ~sw client ?(headers = Request.default_headers) {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}{{^-last}} {{/-last}}{{#-last}} (){{/-last}}{{/allParams}} =
     let uri = Request.build_uri "{{{path}}}" in
-    let headers = Request.default_headers in
 {{#hasAuthMethods}}
     {{#authMethods}}
         {{#isApiKey}}
